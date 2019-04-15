@@ -1,38 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_putaddr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/07 01:32:13 by tdumouli          #+#    #+#             */
-/*   Updated: 2019/04/13 18:19:59 by tdumouli         ###   ########.fr       */
+/*   Created: 2016/11/07 01:22:51 by tdumouli          #+#    #+#             */
+/*   Updated: 2019/04/12 19:44:17 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <unistd.h>
+#include <stdlib.h>
 
-void	ft_putnbr(int n)
+void	ft_putaddr(void *nb, char *b2)
 {
-	int	i;
+	char s[256];
+	unsigned long int	tmp;
+	size_t					size;
+	int						skt;
+	unsigned int			max;
 
-	if (n == 0)
+	if (!b2 && !*b2 && !*(b2 + 1))
+		exit(1);
+	ft_putstr("0x");
+	tmp = (long long)nb;
+	skt = 0;
+	max = ft_strlen(b2);
+	size = 1;
+	while (tmp /= max)
+		++size;
+	tmp = (long long)nb;
+	*(s + size) = '\0';
+	while (--size + 1)
 	{
-		write(1, "0", 1);
-		return ;
+		*(s + size) = *(b2 + (tmp % max));
+		tmp /= max;
 	}
-	if (n < 0)
-	{
-		if (n == -2147483648)
-		{
-			write(1, "-2147483648", 11);
-			return ;
-		}
-		write(1, "-", 1);
-		n = ~n + 1;
-	}
-	i = ft_intlen(n);
-	while (--i != -1)
-		ft_putchar(n / ft_power(10, i) % 10 + '0');
+	ft_putstr(s);
 }

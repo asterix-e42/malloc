@@ -6,7 +6,7 @@
 #    By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/08 16:51:40 by tdumouli          #+#    #+#              #
-#    Updated: 2019/04/08 18:54:31 by tdumouli         ###   ########.fr        #
+#    Updated: 2019/04/15 04:00:44 by tdumouli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCDIR = ./src
 INCDIR = -I./include -I./libft/include
 
 
-MALLOC = free.o malloc.o page.o realloc.o show_mem.o
+MALLOC = free.o malloc.o page.o realloc.o show_mem.o calloc.o
 LIB = libft/libft.a
 
 OBJ =	$(addprefix $(OBJDIR)/, $(MALLOC))
@@ -38,7 +38,8 @@ GREEN="\x1b[32m"
 YELLOW="\x1b[33m"
 CC = gcc
 CFLAGS = $(INCDIR) -Wall -Wextra -Werror
-DEBU = -fsanitize=address -fno-omit-frame-pointer -g3
+DEBU = -fno-omit-frame-pointer -g
+#-fsanitize=address -fno-omit-frame-pointer -g3
 MAKE = /usr/bin/make
 
 LSTDIR=	$(addprefix $(OBJDIR)/, $(LSTDIRI)) \

@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 05:36:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2019/04/08 17:31:59 by tdumouli         ###   ########.fr       */
+/*   Updated: 2019/04/10 18:18:24 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,9 @@ char			*ft_strtrim(char const *s);
 char			**ft_strsplit(char const *s, char c);
 int				ft_stralloc(char **src, char *ajout);
 char			*ft_itoa(int n);
+char			*ft_itoabase(unsigned long long int nb, char *b2);
 void			ft_putchar(char c);
+void			ft_putaddr(void *nb, char *b);
 void			ft_putstr(char const *s);
 void			ft_putendl(char const *s);
 void			ft_putnbr(int n);

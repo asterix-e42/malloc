@@ -6,7 +6,7 @@
 #    By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/08 16:51:40 by tdumouli          #+#    #+#              #
-#    Updated: 2017/10/04 21:53:40 by tdumouli         ###   ########.fr        #
+#    Updated: 2019/04/09 18:24:51 by tdumouli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,9 +21,9 @@ SRCS =	memset bzero memcpy memccpy memmove memchr memcmp strlen strdup strcpy \
 		strncmp atoi isalpha isdigit isalnum isascii isprint toupper tolower \
 		memalloc memdel strnew strdel strclr striter striteri strmap strmapi \
 		strequ strnequ strsub strjoin strtrim strsplit itoa putchar putstr \
-		putendl putnbr putchar_fd putstr_fd putendl_fd putnbr_fd isspace \
-		intlen power atoibase unsignedintlen erreur itoabaseint strcpt strndup \
-		stralloc strnjoin
+		putendl putnbr putaddr putchar_fd putstr_fd putendl_fd putnbr_fd \
+		isspace intlen power atoibase unsignedintlen erreur itoabase strcpt \
+		strndup stralloc strnjoin
 
 LST =	add.o new.o del.o delone.o iter.o map.o find.o addend.o findsize.o \
 		othernew.o count.o 
