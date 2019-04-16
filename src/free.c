@@ -54,9 +54,7 @@ void	ft_free(void *addr)
 	}
 	page = goto_page(size_page, blk[2]);
 	if (!(*(short int *)(page->index + blk[0] + BLOCK_START) & 1 << blk[1]))
-	{
 		return ;
-	}
 	*(short int *)(page->index + blk[0] + BLOCK_START) -= 1 << blk[1];
 	clean_free(page, blk);
 }

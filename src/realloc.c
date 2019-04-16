@@ -11,7 +11,8 @@ static void	*change_page(void *ptr, size_t size, int *size_page, int size_block)
 {
 	void	*ret;
 
-	ret = malloc(size);
+	if (!(ret = malloc(size)))
+		return (NULL);
 	size_page[1] = define_size(&size);
 	if (size_page[1] < size_page[0])
 		memcpy(ret, ptr, size * SIZE(size_page[1]) * 16);
@@ -45,25 +46,26 @@ static void	*same(size_t size_tmp, int *size_block, int *blk, void *ptr)
 	else if ((int)siize > *size_block)
 	{
 		free(ptr);
-		ret = malloc(size_tmp);
-		memcpy(ret, ptr, *size_block * SIZE(size_page) * 16);
+		if ((ret = malloc(size_tmp)) > 0)
+			memcpy(ret, ptr, *size_block * SIZE(size_page) * 16);
 		return (ret);
 	}
 	return (ptr);
 }
 
-static void	*ft_realloc(void *ptr, size_t siize)
+static void	*ft_realloc(void *ptr, size_t siize, int size_block)
 {
 	int		blk[3];
 	int		size_page[2];
 	t_page	*page;
 	size_t	size_tmp;
-	int		size_block;
 
 	size_tmp = siize;
-	size_block = 0;
 	if ((size_page[0] = search_block(ptr, blk)) == 5)
-		return (NULL);
+	{
+		pthread_mutex_unlock(&g_mutex);
+		return (malloc(siize));
+	}
 	size_page[1] = define_size(&siize);
 	page = goto_page(size_page[0], blk[2]);
 	if (size_page[0] == 2)
@@ -83,10 +85,8 @@ void		*realloc(void *ptr, size_t siize)
 {
 	void	*ret;
 
-	if (!ptr)
-		return (malloc(siize));
 	pthread_mutex_lock(&g_mutex);
-	ret = ft_realloc(ptr, siize);
+	ret = ft_realloc(ptr, siize, 0);
 	pthread_mutex_unlock(&g_mutex);
 	return (ret);
 }

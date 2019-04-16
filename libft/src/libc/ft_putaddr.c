@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 01:22:51 by tdumouli          #+#    #+#             */
-/*   Updated: 2019/04/12 19:44:17 by tdumouli         ###   ########.fr       */
+/*   Updated: 2019/04/16 03:06:19 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 void	ft_putaddr(void *nb, char *b2)
 {
-	char s[256];
-	unsigned long int	tmp;
+	char					s[256];
+	unsigned long int		tmp;
 	size_t					size;
 	int						skt;
 	unsigned int			max;

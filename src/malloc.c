@@ -110,8 +110,10 @@ void	*add_next_return(void *ret)
 	if ((void *)g_mem->next >
 		((void *)(g_mem->begin + getpagesize() - sizeof(t_page))))
 	{
-		g_mem->begin = alloc(1);
-		g_mem->next = g_mem->begin;
+		if ((g_mem->begin = alloc(1)) <= 0)
+			ret = NULL;
+		else
+			g_mem->next = g_mem->begin;
 	}
 	pthread_mutex_unlock(&g_mutex);
 	return (ret);
@@ -125,7 +127,8 @@ void		*malloc(size_t size)
 
 	if (!g_mem)
 	{
-		g_mem = alloc(1);
+		if ((g_mem = alloc(1)) <= 0)
+			return (NULL);
 		ft_bzero(g_mem, getpagesize());
 		g_mem->begin = g_mem;
 		g_mem->next = (void *)((long long int)g_mem + sizeof(t_mem));
