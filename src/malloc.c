@@ -7,9 +7,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-int			define_size(size_t *size)
+int				define_size(size_t *size)
 {
-	int		i;
+	int			i;
 
 	i = 0;
 	*size = (*size - 1) / 16 + 1;
@@ -21,16 +21,16 @@ int			define_size(size_t *size)
 	return (i);
 }
 
-void		*alloc(size_t size)
+void			*alloc(size_t size)
 {
-	char	*ret;
+	char		*ret;
 
 	ret = mmap(NULL, size * getpagesize(),
 			PROT_READ | PROT_WRITE, MAP_ANON | MAP_SHARED, -1, 0);
 	return (ret);
 }
 
-static void	change_page(int size, int iii, int *blk, t_page **page)
+static void		change_page(int size, int iii, int *blk, t_page **page)
 {
 	blk[0] = 0;
 	blk[1] = -1;
@@ -46,7 +46,7 @@ static void	change_page(int size, int iii, int *blk, t_page **page)
 		change_page(size, iii, blk, page);
 }
 
-void	strbin(const unsigned int n, const short nb_bits)
+void			strbin(const unsigned int n, const short nb_bits)
 {
 	unsigned	bit;
 	unsigned	mask;
@@ -66,7 +66,7 @@ void	strbin(const unsigned int n, const short nb_bits)
 	ft_putendl(buffer);
 }
 
-void		remplissage(int size, int iii, int *blk)
+void			remplissage(int size, int iii, int *blk)
 {
 	short int	fill_blk;
 	int			tmp;
@@ -95,9 +95,9 @@ void		remplissage(int size, int iii, int *blk)
 	g_mem->pages[iii]->where = MAX(g_mem->pages[iii]->where, blk[0]);
 }
 
-t_page		*goto_page(int i, int blk)
+t_page			*goto_page(int i, int blk)
 {
-	t_page	*ret;
+	t_page		*ret;
 
 	ret = g_mem->pages[i];
 	while (blk--)
@@ -105,7 +105,7 @@ t_page		*goto_page(int i, int blk)
 	return (ret);
 }
 
-void	*add_next_return(void *ret)
+void			*add_next_return(void *ret)
 {
 	if ((void *)g_mem->next >
 		((void *)(g_mem->begin + getpagesize() - sizeof(t_page))))
@@ -119,11 +119,11 @@ void	*add_next_return(void *ret)
 	return (ret);
 }
 
-void		*malloc(size_t size)
+void			*malloc(size_t size)
 {
-	int		blk[3];
-	int		i;
-	void	*ret;
+	int			blk[3];
+	int			i;
+	void		*ret;
 
 	if (!g_mem)
 	{
