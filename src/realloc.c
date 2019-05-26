@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   realloc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/26 22:44:35 by tdumouli          #+#    #+#             */
+/*   Updated: 2019/05/26 22:44:37 by tdumouli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "malloc.h"
 #include "libft.h"
 #include <sys/mman.h>
@@ -15,11 +27,12 @@ static void	*change_page(void *ptr, size_t size, int *size_page, int size_block)
 		return (NULL);
 	size_page[1] = define_size(&size);
 	if (size_page[1] < size_page[0])
-		memcpy(ret, ptr, size * SIZE(size_page[1]) * 16);
+		memcpy(ret, ptr, size * (size_page[1] ? 16 : 1) * 16);
 	else if (size_page[1] > size_page[0])
-		memcpy(ret, ptr, size_block * SIZE(size_page[0]) * 16);
+		memcpy(ret, ptr, size_block * (size_page[0] ? 16 : 1) * 16);
 	else
-		memcpy(ret, ptr, MIN(size_block, (int)size) * getpagesize());
+		memcpy(ret, ptr,
+		((size_block < (int)size) ? size_block : (int)size) * getpagesize());
 	free(ptr);
 	return (ret);
 }
@@ -47,7 +60,7 @@ static void	*same(size_t size_tmp, int *size_block, int *blk, void *ptr)
 	{
 		free(ptr);
 		if ((ret = malloc(size_tmp)) > 0)
-			memcpy(ret, ptr, *size_block * SIZE(size_page) * 16);
+			memcpy(ret, ptr, *size_block * (size_page ? 16 : 1) * 16);
 		return (ret);
 	}
 	return (ptr);

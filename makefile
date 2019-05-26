@@ -6,7 +6,7 @@
 #    By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/08 16:51:40 by tdumouli          #+#    #+#              #
-#    Updated: 2019/04/27 01:53:26 by tdumouli         ###   ########.fr        #
+#    Updated: 2019/05/26 22:50:08 by tdumouli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCDIR = ./src
 INCDIR = -I./include -I./libft/include
 
 
-MALLOC = free.o malloc.o page.o realloc.o show_mem.o calloc.o
+MALLOC = free.o malloc.o page.o realloc.o show_mem.o calloc.o fct_ut.o
 LIB = libft/libft.a
 
 OBJ =	$(addprefix $(OBJDIR)/, $(MALLOC))

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   show_mem.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/26 22:44:27 by tdumouli          #+#    #+#             */
+/*   Updated: 2019/05/26 22:44:28 by tdumouli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "malloc.h"
 #include "libft.h"
 #include <sys/mman.h>
@@ -70,7 +82,7 @@ void	aff_small_tiny(t_page *page_cur, int size_page, long long *total)
 	void			*tmp;
 	int				blk[3];
 
-	blk[2] = SIZE(size_page);
+	blk[2] = (size_page ? 16 : 1);
 	while (page_cur)
 	{
 		blk[0] = 0;

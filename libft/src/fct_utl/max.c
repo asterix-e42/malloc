@@ -1,31 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   calloc.c                                           :+:      :+:    :+:   */
+/*   max.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/26 22:44:10 by tdumouli          #+#    #+#             */
-/*   Updated: 2019/05/26 22:44:11 by tdumouli         ###   ########.fr       */
+/*   Created: 2019/05/26 22:29:47 by tdumouli          #+#    #+#             */
+/*   Updated: 2019/05/26 22:33:04 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "malloc.h"
-#include "libft.h"
-#include <sys/mman.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <sys/resource.h>
-#include <stdlib.h>
-#include <string.h>
-
-void	*calloc(size_t nmemb, size_t size)
+int		max(int a, int b)
 {
-	void	*ret;
-
-	ret = malloc(size * nmemb);
-	pthread_mutex_lock(&g_mutex);
-	ft_bzero(ret, size * nmemb);
-	pthread_mutex_unlock(&g_mutex);
-	return (ret);
+	if (a > b)
+		return (a);
+	return (b);
 }

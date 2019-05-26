@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   malloc.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/26 22:43:57 by tdumouli          #+#    #+#             */
+/*   Updated: 2019/05/26 22:46:51 by tdumouli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "malloc.h"
 #include "libft.h"
 #include <sys/mman.h>
@@ -6,29 +18,6 @@
 #include <sys/resource.h>
 #include <stdlib.h>
 #include <string.h>
-
-int				define_size(size_t *size)
-{
-	int			i;
-
-	i = 0;
-	*size = (*size - 1) / 16 + 1;
-	while (*size > 15 && i != 2)
-	{
-		++i;
-		*size = (*size - 1) / 16 + 1;
-	}
-	return (i);
-}
-
-void			*alloc(size_t size)
-{
-	char		*ret;
-
-	ret = mmap(NULL, size * getpagesize(),
-			PROT_READ | PROT_WRITE, MAP_ANON | MAP_SHARED, -1, 0);
-	return (ret);
-}
 
 static void		change_page(int size, int iii, int *blk, t_page **page)
 {
@@ -44,26 +33,6 @@ static void		change_page(int size, int iii, int *blk, t_page **page)
 		++blk[2];
 	else
 		change_page(size, iii, blk, page);
-}
-
-void			strbin(const unsigned int n, const short nb_bits)
-{
-	unsigned	bit;
-	unsigned	mask;
-	char		buffer[256];
-	int			i;
-
-	bit = 0;
-	mask = 1;
-	i = -1;
-	while (++i < nb_bits)
-	{
-		bit = (n & mask) >> i;
-		buffer[nb_bits - 1 - i] = (char)('0' + bit);
-		mask <<= 1;
-	}
-	buffer[nb_bits] = '\0';
-	ft_putendl(buffer);
 }
 
 void			remplissage(int size, int iii, int *blk)
@@ -92,7 +61,7 @@ void			remplissage(int size, int iii, int *blk)
 	}
 	*(int *)(page->index + blk[0]) |= (fill_blk << blk[1]);
 	*(short int *)(page->index + blk[0] + BLOCK_START) |= 1 << blk[1];
-	g_mem->pages[iii]->where = MAX(g_mem->pages[iii]->where, blk[0]);
+	g_mem->pages[iii]->where = max(g_mem->pages[iii]->where, blk[0]);
 }
 
 t_page			*goto_page(int i, int blk)
@@ -141,7 +110,7 @@ void			*malloc(size_t size)
 		return (add_next_return(g_mem->pages[i]->data));
 	remplissage(size, i, blk);
 	ret = goto_page(i, blk[2]);
-	i = SIZE(i);
+	i = (i ? 16 : 1);
 	ret = ((t_page *)ret)->data + blk[0] * 256 * i + blk[1] * 16 * i;
 	return (add_next_return(ret));
 }

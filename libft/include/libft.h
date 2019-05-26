@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 05:36:48 by tdumouli          #+#    #+#             */
-/*   Updated: 2019/04/10 18:18:24 by tdumouli         ###   ########.fr       */
+/*   Updated: 2019/05/26 22:32:28 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_list			*ft_lstfindsize(const t_list *lst, int data);
 t_list			*ft_lstothernew(size_t content_size);
 void			ft_lstaddend(t_list **alst, t_list *n);
 int				ft_lstcount(t_list *alst);
+int				max(int a, int b);
 
 void			*ft_memset(void *s, int v, size_t size);
 void			ft_bzero(void *s, size_t size);
