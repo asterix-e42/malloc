@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 22:44:15 by tdumouli          #+#    #+#             */
-/*   Updated: 2019/05/26 22:44:16 by tdumouli         ###   ########.fr       */
+/*   Updated: 2019/06/21 13:40:11 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	ft_free(void *addr)
 	int		size_page;
 	t_page	*page;
 
+	if (!g_mem)
+		return ;
 	size_page = search_block(addr, blk);
 	if (size_page == 5)
 	{

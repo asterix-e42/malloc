@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   malloc.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/18 12:55:19 by tdumouli          #+#    #+#             */
+/*   Updated: 2019/06/21 13:40:22 by tdumouli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MALLOC_H
 # define MALLOC_H
 # include <stddef.h>
@@ -31,9 +43,11 @@ typedef struct			s_mem
 }						t_mem;
 
 t_mem					*g_mem;
-static pthread_mutex_t	g_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t			g_mutex;
 
 void					*malloc(size_t size);
+void					*ft_malloc(size_t size);
+void					ft_free(void *addr);
 int						search_block(void *addr, int *blk);
 void					create_page(int i, int size);
 void					*alloc(size_t size);

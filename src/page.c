@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 22:44:21 by tdumouli          #+#    #+#             */
-/*   Updated: 2019/05/26 22:44:22 by tdumouli         ###   ########.fr       */
+/*   Updated: 2019/06/21 13:34:15 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void		create_page(int size_page, int size)
 	else
 	{
 		g_mem->next->where = size;
+		g_mem->next->index = NULL + size;
 		g_mem->next->data = alloc(size);
 	}
 	g_mem->next->next = g_mem->pages[size_page];
@@ -60,6 +61,18 @@ static int	search(void *addr, int *blk, int size_page)
 	if (*(short int *)(page_cur->index + blk[0] + BLOCK_START) & 1 << blk[1])
 		return (size_page);
 	return (5);
+}
+
+t_page		*goto_page(int i, int blk)
+{
+	t_page	*ret;
+
+	ret = g_mem->pages[i];
+	while (blk--)
+	{
+		ret = ret->next;
+	}
+	return (ret);
 }
 
 int			search_block(void *addr, int *blk)

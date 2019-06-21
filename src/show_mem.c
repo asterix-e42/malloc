@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 22:44:27 by tdumouli          #+#    #+#             */
-/*   Updated: 2019/05/26 22:44:28 by tdumouli         ###   ########.fr       */
+/*   Updated: 2019/06/21 13:24:59 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,20 @@ void	print_begin(int size_page, t_page *page_cur)
 	ft_putendl("");
 }
 
-void	aff_small(t_page *page_cur, long long *total, int *blk, void **tmp)
+void	aff_small(t_page *pg, long long *total, int *blk, void **tmp)
 {
-	if (*(short int *)(page_cur->index + blk[0] + BLOCK_START) & 1 << blk[1])
+	void	*tmp2;
+
+	tmp2 = ((t_page *)pg)->data + blk[0] * 256 * blk[2] + blk[1] * 16 * blk[2];
+	if (*(short int *)(pg->index + blk[0] + BLOCK_START) & 1 << blk[1])
 	{
 		if (*tmp)
-			print_alloc_mem(*tmp, (((t_page *)page_cur)->data + blk[0] * 256 *
-						blk[2] + blk[1] * 16 * blk[2]), total, blk[2]);
-		*tmp = ((t_page *)page_cur)->data + blk[0] * 256 *
-			blk[2] + blk[1] * 16 * blk[2];
+			print_alloc_mem(*tmp, tmp2, total, blk[2]);
+		*tmp = tmp2;
 	}
-	else if (*tmp && !(*(char *)(page_cur->index + blk[0]) & (1 << blk[1])))
+	else if (*tmp && !(*(char *)(pg->index + blk[0]) & (1 << blk[1])))
 	{
-		print_alloc_mem(*tmp, ((t_page *)page_cur)->data + blk[0] * 256 *
-				blk[2] + blk[1] * 16 * blk[2], total, blk[2]);
+		print_alloc_mem(*tmp, tmp2, total, blk[2]);
 		*tmp = NULL;
 	}
 	if (++blk[1] == 16)
@@ -82,6 +82,7 @@ void	aff_small_tiny(t_page *page_cur, int size_page, long long *total)
 	void			*tmp;
 	int				blk[3];
 
+	tmp = NULL;
 	blk[2] = (size_page ? 16 : 1);
 	while (page_cur)
 	{
@@ -95,7 +96,7 @@ void	aff_small_tiny(t_page *page_cur, int size_page, long long *total)
 		if (tmp)
 		{
 			print_alloc_mem(tmp, (((t_page *)page_cur)->data + blk[0] * 256
-						* blk[2] + blk[1] * 16 * blk[2]), total, blk[2]);
+			* blk[2] + blk[1] * 16 * blk[2]), total, blk[2]);
 		}
 		page_cur = page_cur->next;
 	}
@@ -107,6 +108,8 @@ void	show_alloc_mem(void)
 	int				size_page;
 	t_page			*page_cur;
 
+	if (!g_mem)
+		return ;
 	pthread_mutex_lock(&g_mutex);
 	total = 0;
 	size_page = -1;
@@ -115,9 +118,9 @@ void	show_alloc_mem(void)
 		aff_small_tiny(g_mem->pages[size_page], size_page, &total);
 	}
 	page_cur = g_mem->pages[size_page];
-	print_begin(size_page, page_cur);
 	while (page_cur)
 	{
+		print_begin(size_page, page_cur);
 		print_alloc_mem(page_cur->data, page_cur->index, &total, size_page);
 		page_cur = page_cur->next;
 	}

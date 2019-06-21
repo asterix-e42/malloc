@@ -6,7 +6,7 @@
 #    By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/08 16:51:40 by tdumouli          #+#    #+#              #
-#    Updated: 2019/05/26 22:50:08 by tdumouli         ###   ########.fr        #
+#    Updated: 2019/06/19 14:45:18 by tdumouli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,7 @@ $(NAME): $(OBJ)
 	@echo $(GREEN)$(NAME)" a ete cree"$(NO_COLOR)
 
 clean:
-	@$(MAKE) clean -C ./libft
+	@$(MAKE) clean -C libft
 	@rm -rf $(OBJ)
 	@$(MAKE) cleanv
 

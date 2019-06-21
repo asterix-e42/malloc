@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 22:43:57 by tdumouli          #+#    #+#             */
-/*   Updated: 2019/05/26 22:46:51 by tdumouli         ###   ########.fr       */
+/*   Updated: 2019/06/21 13:40:49 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include <sys/resource.h>
 #include <stdlib.h>
 #include <string.h>
+
+pthread_mutex_t g_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 static void		change_page(int size, int iii, int *blk, t_page **page)
 {
@@ -64,16 +66,6 @@ void			remplissage(int size, int iii, int *blk)
 	g_mem->pages[iii]->where = max(g_mem->pages[iii]->where, blk[0]);
 }
 
-t_page			*goto_page(int i, int blk)
-{
-	t_page		*ret;
-
-	ret = g_mem->pages[i];
-	while (blk--)
-		ret = ret->next;
-	return (ret);
-}
-
 void			*add_next_return(void *ret)
 {
 	if ((void *)g_mem->next >
@@ -88,12 +80,26 @@ void			*add_next_return(void *ret)
 	return (ret);
 }
 
-void			*malloc(size_t size)
+void			*ft_malloc(size_t size)
 {
 	int			blk[3];
-	int			i;
+	int			size_bloc;
 	void		*ret;
 
+	size_bloc = define_size(&size);
+	if (!g_mem->pages[size_bloc] || size_bloc == 2)
+		create_page(size_bloc, (int)size);
+	if (size_bloc == 2)
+		return (add_next_return(g_mem->pages[size_bloc]->data));
+	remplissage(size, size_bloc, blk);
+	ret = goto_page(size_bloc, blk[2]);
+	size_bloc = (size_bloc ? 16 : 1);
+	ret = ((t_page *)ret)->data + (blk[0] * 16 + blk[1]) * 16 * size_bloc;
+	return (add_next_return(ret));
+}
+
+void			*malloc(size_t size)
+{
 	if (!g_mem)
 	{
 		if ((g_mem = alloc(1)) <= 0)
@@ -103,14 +109,5 @@ void			*malloc(size_t size)
 		g_mem->next = (void *)((long long int)g_mem + sizeof(t_mem));
 	}
 	pthread_mutex_lock(&g_mutex);
-	i = define_size(&size);
-	if (!g_mem->pages[i] || i == 2)
-		create_page(i, (int)size);
-	if (i == 2)
-		return (add_next_return(g_mem->pages[i]->data));
-	remplissage(size, i, blk);
-	ret = goto_page(i, blk[2]);
-	i = (i ? 16 : 1);
-	ret = ((t_page *)ret)->data + blk[0] * 256 * i + blk[1] * 16 * i;
-	return (add_next_return(ret));
+	return (ft_malloc(size));
 }

@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 22:44:35 by tdumouli          #+#    #+#             */
-/*   Updated: 2019/05/26 22:44:37 by tdumouli         ###   ########.fr       */
+/*   Updated: 2019/06/21 13:41:00 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ static void	*change_page(void *ptr, size_t size, int *size_page, int size_block)
 {
 	void	*ret;
 
-	if (!(ret = malloc(size)))
+	if (!(ret = ft_malloc(size)))
 		return (NULL);
 	size_page[1] = define_size(&size);
 	if (size_page[1] < size_page[0])
-		memcpy(ret, ptr, size * (size_page[1] ? 16 : 1) * 16);
+		ft_memcpy(ret, ptr, size * (size_page[1] ? 16 : 1) * 16);
 	else if (size_page[1] > size_page[0])
-		memcpy(ret, ptr, size_block * (size_page[0] ? 16 : 1) * 16);
+		ft_memcpy(ret, ptr, size_block * (size_page[0] ? 16 : 1) * 16);
 	else
-		memcpy(ret, ptr,
+		ft_memcpy(ret, ptr,
 		((size_block < (int)size) ? size_block : (int)size) * getpagesize());
-	free(ptr);
+	ft_free(ptr);
 	return (ret);
 }
 
@@ -58,9 +58,9 @@ static void	*same(size_t size_tmp, int *size_block, int *blk, void *ptr)
 	}
 	else if ((int)siize > *size_block)
 	{
-		free(ptr);
-		if ((ret = malloc(size_tmp)) > 0)
-			memcpy(ret, ptr, *size_block * (size_page ? 16 : 1) * 16);
+		ft_free(ptr);
+		if ((ret = ft_malloc(size_tmp)) > 0)
+			ft_memcpy(ret, ptr, *size_block * (size_page ? 16 : 1) * 16);
 		return (ret);
 	}
 	return (ptr);
@@ -74,11 +74,11 @@ static void	*ft_realloc(void *ptr, size_t siize, int size_block)
 	size_t	size_tmp;
 
 	size_tmp = siize;
-	if ((size_page[0] = search_block(ptr, blk)) == 5)
-	{
-		pthread_mutex_unlock(&g_mutex);
+	if (!ptr || !g_mem)
 		return (malloc(siize));
-	}
+	pthread_mutex_lock(&g_mutex);
+	if ((size_page[0] = search_block(ptr, blk)) == 5)
+		return (NULL);
 	size_page[1] = define_size(&siize);
 	page = goto_page(size_page[0], blk[2]);
 	if (size_page[0] == 2)
@@ -94,11 +94,16 @@ static void	*ft_realloc(void *ptr, size_t siize, int size_block)
 	return (change_page(ptr, size_tmp, size_page, size_block));
 }
 
+/*
+** //	pthread_mutex_lock(&g_mutex);
+**	ret = ft_realloc(ptr, siize, 0);
+** //	pthread_mutex_unlock(&g_mutex);
+*/
+
 void		*realloc(void *ptr, size_t siize)
 {
 	void	*ret;
 
-	pthread_mutex_lock(&g_mutex);
 	ret = ft_realloc(ptr, siize, 0);
 	pthread_mutex_unlock(&g_mutex);
 	return (ret);
