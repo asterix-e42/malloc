@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 22:44:27 by tdumouli          #+#    #+#             */
-/*   Updated: 2019/06/21 13:24:59 by tdumouli         ###   ########.fr       */
+/*   Updated: 2019/06/25 17:52:38 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,13 @@ void	aff_small_tiny(t_page *page_cur, int size_page, long long *total)
 	void			*tmp;
 	int				blk[3];
 
-	tmp = NULL;
 	blk[2] = (size_page ? 16 : 1);
 	while (page_cur)
 	{
 		blk[0] = 0;
 		blk[1] = 0;
 		print_begin(size_page, page_cur);
+		tmp = NULL;
 		while (blk[0] <= page_cur->where)
 		{
 			aff_small(page_cur, total, blk, &tmp);
