@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 22:44:10 by tdumouli          #+#    #+#             */
-/*   Updated: 2019/05/26 22:44:11 by tdumouli         ###   ########.fr       */
+/*   Updated: 2019/06/25 18:14:11 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	*calloc(size_t nmemb, size_t size)
 	void	*ret;
 
 	ret = malloc(size * nmemb);
-	pthread_mutex_lock(&g_mutex);
 	ft_bzero(ret, size * nmemb);
-	pthread_mutex_unlock(&g_mutex);
 	return (ret);
 }
