@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 12:55:19 by tdumouli          #+#    #+#             */
-/*   Updated: 2019/06/25 17:39:19 by tdumouli         ###   ########.fr       */
+/*   Updated: 2019/06/25 18:18:20 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ t_mem					*g_mem;
 pthread_mutex_t			g_mutex;
 
 void					*malloc(size_t size);
+void					*realloc(void *ptr, size_t size);
 void					*ft_malloc(size_t size);
-void					ft_free(void *addr);
+void					ft_free(void *ptr);
 int						search_block(void *addr, int *blk);
 void					create_page(int i, int size);
 void					*alloc(size_t size);
