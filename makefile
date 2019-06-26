@@ -6,7 +6,7 @@
 #    By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/08 16:51:40 by tdumouli          #+#    #+#              #
-#    Updated: 2019/06/19 14:45:18 by tdumouli         ###   ########.fr        #
+#    Updated: 2019/06/26 16:50:42 by tdumouli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,8 +66,10 @@ $(NAMEI): $(OBJ)
 	@ranlib $(NAME)
 	@echo $(GREEN)"library compile"$(NO_COLOR)
 
-$(NAME): $(OBJ)
+$(LIB) :
 	$(MAKE) -C ./libft
+
+$(NAME): $(LIB) $(OBJ)
 	$(CC) $(OBJ) ./$(LIB) -o $(NAME) $(DEBUG) -shared
 	rm -f libft_malloc.so
 	ln -s $(NAME) libft_malloc.so

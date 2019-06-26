@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 22:43:57 by tdumouli          #+#    #+#             */
-/*   Updated: 2019/06/25 17:38:45 by tdumouli         ###   ########.fr       */
+/*   Updated: 2019/06/26 16:37:30 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void			*add_next_return(void *ret)
 		else
 			g_mem->next = g_mem->begin;
 	}
-	pthread_mutex_unlock(&g_mutex);
 	return (ret);
 }
 
@@ -100,6 +99,8 @@ void			*ft_malloc(size_t size)
 
 void			*malloc(size_t size)
 {
+	void *ptr;
+	pthread_mutex_lock(&g_mutex);
 	if (!g_mem)
 	{
 		if ((g_mem = alloc(1)) <= 0)
@@ -108,6 +109,7 @@ void			*malloc(size_t size)
 		g_mem->begin = g_mem;
 		g_mem->next = (void *)((long long int)g_mem + sizeof(t_mem));
 	}
-	pthread_mutex_lock(&g_mutex);
-	return (ft_malloc(size));
+	ptr = (ft_malloc(size));
+	pthread_mutex_unlock(&g_mutex);
+	return ptr;
 }

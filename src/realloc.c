@@ -6,7 +6,7 @@
 /*   By: tdumouli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 22:44:35 by tdumouli          #+#    #+#             */
-/*   Updated: 2019/06/21 13:41:00 by tdumouli         ###   ########.fr       */
+/*   Updated: 2019/06/26 16:39:10 by tdumouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,6 @@ static void	*ft_realloc(void *ptr, size_t siize, int size_block)
 	size_t	size_tmp;
 
 	size_tmp = siize;
-	if (!ptr || !g_mem)
-		return (malloc(siize));
-	pthread_mutex_lock(&g_mutex);
 	if ((size_page[0] = search_block(ptr, blk)) == 5)
 		return (NULL);
 	size_page[1] = define_size(&siize);
@@ -103,7 +100,10 @@ static void	*ft_realloc(void *ptr, size_t siize, int size_block)
 void		*realloc(void *ptr, size_t siize)
 {
 	void	*ret;
-
+	
+	if (!ptr || !g_mem)
+		return (malloc(siize));
+	pthread_mutex_lock(&g_mutex);
 	ret = ft_realloc(ptr, siize, 0);
 	pthread_mutex_unlock(&g_mutex);
 	return (ret);
